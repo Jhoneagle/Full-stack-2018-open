@@ -11,6 +11,10 @@ usersRouter.post('/', async (request, response) => {
       return response.status(400).json({ error: 'username must be unique' })
     }
     
+    if (body.password.length < 3) {
+      return response.status(400).json({ error: 'password must be atleast 3 letters' })
+    }
+    
     const saltRounds = 10
     const passwordCrypt = await bcrypt.hash(body.password, saltRounds)
 
@@ -18,7 +22,7 @@ usersRouter.post('/', async (request, response) => {
       username: body.username,
       name: body.name,
       passwordHash: passwordCrypt,
-      adult: body.adult
+      adult: body.adult === undefined ? true : body.adult
     })
 
     const savedUser = await user.save()
@@ -30,7 +34,7 @@ usersRouter.post('/', async (request, response) => {
 })
 
 usersRouter.get('/', async (request, response) => {
-  const users = await User.find({})
+  const users = await User.find({}).populate('blogs', { title: 1, author: 1, url: 1, likes: 1 } )
   response.json(users.map(User.format))
 })
 

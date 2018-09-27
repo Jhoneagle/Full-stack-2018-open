@@ -7,14 +7,28 @@ const logger = (request, response, next) => {
   console.log('Path:  ', request.path)
   console.log('Body:  ', request.body)
   console.log('---')
-  next()
+  return next()
 }
 
 const error = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
 
+const tokenExtractor = (request, response, next) => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    const token = authorization.substring(7)
+    request.token = token
+  } else {
+    const token = undefined
+    request.token = token
+  }
+  
+  return next()
+}
+
 module.exports = {
   logger,
-  error
+  error,
+  tokenExtractor
 }
