@@ -32,10 +32,10 @@ class App extends React.Component {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      this.setState({user})
+      this.setState({ user })
       blogService.setToken(user.token)
     }
-  } 
+  }
 
   handleBlogChange = (event) => {
     this.setState({ [event.target.name]: event.target.value })
@@ -186,7 +186,7 @@ class App extends React.Component {
 
   render() {
     const loginForm = () => (
-      <div>
+      <div className="loginForm">
         <h2>Kirjaudu</h2>
 
         <form onSubmit={this.login}>
@@ -216,7 +216,7 @@ class App extends React.Component {
     const order = this.state.blogs.sort(function(a, b){return b.likes - a.likes})
     
     return (
-      <div>
+      <div className="content">
         <Error message={this.state.error}/>
         <Notification message={this.state.notification}/>
 	
@@ -239,7 +239,7 @@ class App extends React.Component {
         
 	{this.state.user === null ?
           <div></div> :
-	  <div>
+	  <div className="blogs">
             <h2>Blogs</h2>
 	    {order.map(blog =>
 	      <Blog

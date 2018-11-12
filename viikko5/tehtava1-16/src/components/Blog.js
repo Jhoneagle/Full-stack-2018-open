@@ -25,7 +25,7 @@ class Blog extends React.Component {
     }
 
     const fullDetails = () => (
-      <div>
+      <div className="content">
         <div onClick={this.toggleVisibility}>
 	  {this.props.blog.title} {this.props.blog.author}
 	</div>
@@ -50,7 +50,7 @@ class Blog extends React.Component {
     return (
       <div style={blogStyle}>
         <div style={hideWhenVisible}>
-          <div onClick={this.toggleVisibility}>{this.props.blog.title} {this.props.blog.author}</div>
+          <div className="name" onClick={this.toggleVisibility}>{this.props.blog.title} {this.props.blog.author}</div>
         </div>
         <div style={showWhenVisible}>
           <div>
