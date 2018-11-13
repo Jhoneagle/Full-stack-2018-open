@@ -6,7 +6,7 @@ class Notification extends React.Component {
     const getNotificationDiv = () => this.props.notification === null ?
       null : ( <div className="notification">{this.props.notification}</div> )
       
-    return getNotificationDiv() 
+    return getNotificationDiv()
   }
 }
 

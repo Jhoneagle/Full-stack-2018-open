@@ -11,7 +11,7 @@ class AnecdoteForm extends React.Component {
     e.target.anecdote.value = ''
     
     await this.props.createAnecdote({content})
-    await this.props.notify(`New anecdote '${content}' added. `, 5)
+    await this.props.notify(`New anecdote '${content}' added.`, 5)
   }
   
   render() {
