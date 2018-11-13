@@ -2,7 +2,7 @@ import React from 'react';
 
 
 class App extends React.Component {
-  voteFor(anecdote) {
+  vote(anecdote) {
     return () => {
       this.props.store.dispatch({
         type: 'VOTE',
@@ -11,7 +11,7 @@ class App extends React.Component {
     }
   }
 
-  onCreate = (event) =>{
+  create = (event) =>{
     event.preventDefault()
     
     this.props.store.dispatch({
@@ -37,15 +37,17 @@ class App extends React.Component {
             </div>
             <div>
               has {anecdote.votes}
-              <button onClick={this.voteFor(anecdote)}>vote</button>
+              <button onClick={this.vote(anecdote)}>vote</button>
             </div>
           </div>
         )}
 	
         <h2>create new anecdote</h2>
 	
-        <form onSubmit={this.onCreate}>
-          <div><input name="content"/></div>
+        <form onSubmit={this.create}>
+          <div>
+	    <input name="content"/>
+	  </div>
           <button type="submit">create</button> 
         </form>
       </div>

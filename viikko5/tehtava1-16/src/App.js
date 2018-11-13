@@ -176,7 +176,7 @@ class App extends React.Component {
       }, 5000)
     } catch(exception) {
       this.setState({
-        error: 'Käyttäjätunnus tai salasana virheellinen',
+        error: 'Käyttäjätunnus tai salasana virheellinen'
       })
       setTimeout(() => {
         this.setState({ error: '' })

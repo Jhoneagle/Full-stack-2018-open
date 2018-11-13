@@ -19,7 +19,7 @@ describe('unicafe reducer', () => {
     expect(newState).toEqual(initialState)
   })
 
-  it('good is incremented', () => {
+  it('GOOD is incremented', () => {
     const action = {
       type: 'GOOD'
     }
@@ -35,7 +35,7 @@ describe('unicafe reducer', () => {
     })
   })
   
-  it('bad is incremented', () => {
+  it('BAD is incremented', () => {
     const action = {
       type: 'BAD'
     }
@@ -52,7 +52,7 @@ describe('unicafe reducer', () => {
     })
   })
 
-  it('ok is incremented', () => {
+  it('OK is incremented', () => {
     const action = {
       type: 'OK'
     }
@@ -69,7 +69,7 @@ describe('unicafe reducer', () => {
     })
   })
 
-  it('zero returns zeroes for non-zero initial state', () => {
+  it('ZERO returns zeroes for non-zero initial state', () => {
     const action = {
       type: 'ZERO'
     }

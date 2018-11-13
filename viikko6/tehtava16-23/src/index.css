@@ -1,0 +1,13 @@
+.img-responsive{
+  display: block;
+  max-width: 50%;
+  height: auto;
+}
+
+.jumbotron{
+  background-color: aqua;
+}
+
+.em{
+  background-color: #DCDCDC;
+}
