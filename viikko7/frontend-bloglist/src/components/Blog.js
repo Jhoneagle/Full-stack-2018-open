@@ -1,65 +1,72 @@
-import React from 'react'
+﻿import React from 'react'
+import { connect } from 'react-redux'
+import { increaseLikes, deleteBlog } from '../reducers/blogReducer'
 
 class Blog extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      visible: false
+  delete = (event) => {
+    if (window.confirm(`delete '${this.props.blog.title}' by ${this.props.blog.author}?`)) {
+        try {
+          this.props.deleteBlog()
+          this.props.history.push('/blogs')
+        } catch (exception) {
+          console.log(exception)
+        }
     }
   }
 
-  toggleVisibility = () => {
-    this.setState({visible: !this.state.visible})
+  like = (event) => {
+    this.props.increaseLikes(this.props.blog)
   }
 
   render() {
-    const hideWhenVisible = { display: this.state.visible ? 'none' : '' }
-    const showWhenVisible = { display: this.state.visible ? '' : 'none' }
-
-    const blogStyle = {
-      paddingTop: 10,
-      paddingLeft: 2,
-      border: 'solid',
-      borderWidth: 1,
-      marginBottom: 5
+    const deleteButtonStyle = {
+      backgroundColor: 'blue',
+      borderRadius: 8
     }
-
-    const fullDetails = () => (
-      <div className="content">
-        <div onClick={this.toggleVisibility}>
-	  {this.props.blog.title} {this.props.blog.author}
-	</div>
-	<div>
-	  {this.props.blog.url}
-	</div>
-	<div>
-	  {this.props.blog.likes} likes <button onClick={this.props.update}>like</button>
-	</div>
-	<div>
-	  added by {this.props.user.username}
-	</div>
-	<div>
-	  {this.props.user._id === this.props.blog.user.id ?
-            <button onClick={this.props.del}>poista</button> :
-	    <div></div>
-          }
-	</div>
-      </div>
-    )
-
-    return (
-      <div style={blogStyle}>
-        <div style={hideWhenVisible}>
-          <div className="name" onClick={this.toggleVisibility}>{this.props.blog.title} {this.props.blog.author}</div>
-        </div>
-        <div style={showWhenVisible}>
-          <div>
-            {fullDetails()}
+    
+    if (this.props.blog) {
+      return (
+        <div>
+          <h2>{this.props.blog.title} by {this.props.blog.author}</h2>
+          <a href={this.props.blog.url}>{this.props.blog.url}</a>
+	  
+          <div>{this.props.blog.likes} likes
+            <button onClick={this.like}>like</button>
           </div>
+	  
+          <div>added by {this.props.blog.user !== undefined
+            ? this.props.blog.user.name : '<undefined>'}</div>
+	    
+          {(this.props.blog.user === undefined || this.props.blog.user.id === this.props.user.id)
+              && <button
+                   onClick={this.delete}
+                   style={deleteButtonStyle}>
+                     delete
+                </button>
+          }
         </div>
-      </div>
-    )
+      )
+    }
+    
+    return null
   }
 }
 
-export default Blog
+const mapStateToProps = (state, props) => {
+  if (!state.blogs) {
+    return { blog: null, user: state.login }
+  }
+  
+  const blog = state.blogs.filter(blog => blog.id === props.blogId)[0]
+  
+  return { blog, user: state.login }
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    increaseLikes: (blog) => dispatch(increaseLikes(blog)),
+    deleteBlog: (id) => dispatch(deleteBlog(props.blogId))
+  }
+}
+
+export default connect( mapStateToProps, mapDispatchToProps)(Blog)
